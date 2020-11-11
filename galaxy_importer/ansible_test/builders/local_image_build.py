@@ -17,9 +17,10 @@
 
 import logging
 import os
-import requests
+import shutil
 import tempfile
 
+import galaxy_importer
 from galaxy_importer import config
 from galaxy_importer import exceptions
 from shutil import copy
@@ -61,13 +62,14 @@ class Build(object):
             raise exceptions.AnsibleTestError(
                 'An exception occurred in: {}, message={}'.format(' '.join(cmd), e.msg))
 
+    @staticmethod
     def _build_dockerfile(dir):
-        url = 'https://raw.githubusercontent.com/ansible/galaxy-importer \
-            /master/docker/ansible-test/Dockerfile'
         file_location = os.path.join(dir, 'Dockerfile')
-        with requests.get(url, allow_redirects=True) as r:
-            with open(file_location, 'wb') as f:
-                f.write(r.content)
+
+        dockerfile_src = os.path.join(
+            os.path.dirname(galaxy_importer.ansible_test.__file__), 'docker', 'Dockerfile')
+        shutil.copy(dockerfile_src, file_location)
+
         with open(file_location, 'r+') as f:
             lines = f.readlines()
             for index, line in enumerate(lines):
