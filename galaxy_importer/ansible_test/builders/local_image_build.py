@@ -42,6 +42,7 @@ class Build(object):
     def build_image(self):
         self.log.info('Building Dockerfile')
         Build._build_dockerfile(self.working_dir.name)
+        Build._copy_entrypoint(self.working_dir.name)
         Build._copy_collection_file(
             dir=self.working_dir.name,
             filepath=self.filepath
@@ -63,6 +64,13 @@ class Build(object):
                 'An exception occurred in: {}, message={}'.format(' '.join(cmd), e.msg))
 
     @staticmethod
+    def _copy_entrypoint(dir):
+        entrypoint_src = os.path.join(
+            os.path.dirname(galaxy_importer.ansible_test.__file__), 'docker', 'entrypoint.sh')
+        entrypoint = os.path.join(dir, 'entrypoint.sh')
+        shutil.copy(entrypoint_src, entrypoint)
+
+    @staticmethod
     def _build_dockerfile(dir):
         file_location = os.path.join(dir, 'Dockerfile')
 
@@ -81,6 +89,7 @@ class Build(object):
             f.seek(0)
             f.writelines(lines)
 
+    @staticmethod
     def _build_image_with_artifact(dir):
         cmd = ['docker', 'build', '.', '--quiet']
         proc = Popen(
@@ -102,6 +111,7 @@ class Build(object):
                 .format(' '.join(cmd), return_code))
         return result.split(':')[-1]
 
+    @staticmethod
     def _copy_collection_file(dir, filepath):
         path = os.path.join(dir, 'archive.tar.gz')
         copy(filepath, path)

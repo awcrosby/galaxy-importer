@@ -16,11 +16,8 @@ RUN touch /usr/local/lib/python3.6/dist-packages/ansible.egg-info \
     && mkdir -m 0775 /.ansible \
     && mkdir -m 0775 /.pylint.d
 
-RUN apt-get update -y \
-    && apt-get install -y wget \
-    && wget -O entrypoint.sh https://raw.githubusercontent.com/ansible/galaxy-importer/master/docker/ansible-test/entrypoint.sh \
-    && cp entrypoint.sh /entrypoint \
-    && chmod +x /entrypoint
+COPY entrypoint.sh /entrypoint
+RUN chmod +x /entrypoint
 
 ENV HOME /
 USER 1000
