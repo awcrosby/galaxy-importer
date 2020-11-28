@@ -48,6 +48,13 @@ jobs:
       run: |
         pytest
 
+    - name: Test with pytest - make test
+      run: |
+        make test
+
+    - name: Integration test
+      run: |
+        make test/integration
 
 # 
 # name: ci-steps
