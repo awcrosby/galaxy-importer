@@ -3,12 +3,12 @@
 
 name: Python package
 
-on: push
-# on:
-#   push:
-#     branches: [ master ]
-#   pull_request:
-#     branches: [ master ]
+# on: push
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 
 jobs:
   build:
@@ -27,12 +27,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     python -m pip install flake8 pytest
-    #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
     - name: Install source package and dependencies
       run: |
         python -m pip install -e .[dev] 
@@ -44,11 +38,7 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Test with pytest
-      run: |
-        pytest
-
-    - name: Test with pytest - make test
+    - name: Pytest unit tests
       run: |
         make test
 
