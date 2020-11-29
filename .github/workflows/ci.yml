@@ -1,18 +1,12 @@
 name: ci-steps
 
-# on: [push, pull_request]
 on:
+  pull_request:
   push:
     branches:
       - '**'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
-    # branches: [ $default-branch ]
-  pull_request:
-    # branches: [ $default-branch ]
-  # create:
-  #   tags:
-  #     - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build-and-test:
@@ -45,9 +39,9 @@ jobs:
       run: |
         make test
 
-    - name: Integration test
-      run: |
-        make test/integration
+    # - name: Integration test
+    #   run: |
+    #     make test/integration
 
 
   publish:
