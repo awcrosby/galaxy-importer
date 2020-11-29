@@ -4,7 +4,7 @@ name: ci-steps
 on:
   push:
     branches:
-      - *
+      - '**'
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
     # branches: [ $default-branch ]
@@ -15,7 +15,7 @@ on:
   #     - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -52,7 +52,7 @@ jobs:
 
   publish:
     name: Build and publish to PyPI registry
-    needs: build-and-test
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
