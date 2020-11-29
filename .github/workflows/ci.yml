@@ -1,6 +1,5 @@
 name: ci-steps
 
-# on: push
 on: [push, pull_request]
 # on:
 #   push:
@@ -17,8 +16,7 @@ jobs:
         # python-version: ['3.6', '3.7', '3.8']
 
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
@@ -76,23 +74,3 @@ jobs:
     #   uses: pypa/gh-action-pypi-publish@master
     #   with:
     #     password: ${{ secrets.pypi_password }}
-
-    
-    
-    
-    # # Name the Job
-    # name: Lint code base
-    # # Set the type of machine to run on
-    # runs-on: ubuntu-latest
-    # 
-    # steps:
-    #   # Checks out a copy of your repository on the ubuntu-latest machine
-    #   - name: Checkout code
-    #     uses: actions/checkout@v2
-    # 
-    #   # Runs the Super-Linter action
-    #   - name: Run Super-Linter
-    #     uses: github/super-linter@v3
-    #     env:
-    #       DEFAULT_BRANCH: master
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
