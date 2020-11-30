@@ -37,10 +37,7 @@ jobs:
       if: github.event_name == 'pull_request'
       env:
         GITHUB_PR_COMMITS_URL: ${{ github.event.pull_request.commits_url }}
-      run: |
-        echo $GITHUB_PR_COMMITS_URL
-        git log -n 4
-        sh .github/scripts/check_commit.sh
+      run: sh .github/scripts/check_commit.sh
 
     - name: Install source package and dependencies
       run: |
